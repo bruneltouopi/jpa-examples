@@ -7,16 +7,13 @@ package acn.hackation.mavenproject1;
 
 import acn.hackation.mavenproject1.exceptions.NonexistentEntityException;
 import acn.hackation.mavenproject1.exceptions.PreexistingEntityException;
+
+import javax.persistence.*;
+import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 /**
  *
@@ -137,15 +134,66 @@ public class CustomerJpaController implements Serializable {
             em.close();
         }
     }
+
+    public void getFullNames(){
+        EntityManager em=getEntityManager();
+        CriteriaQuery<Tuple> cq=em.getCriteriaBuilder().createTupleQuery();
+        Root<Customer> customerRoot=cq.from(Customer.class);
+        cq.multiselect(customerRoot.get("firstName").alias("f"),customerRoot.get("name").alias("n")).distinct(true);
+        TypedQuery<Tuple> q=em.createQuery(cq);
+        System.out.println("FullNames:");
+        for(Tuple t:q.getResultList()){
+            System.out.println(t.get("n")+"-----"+t.get("f"));
+        }
+    }
+    public void getListCustomerWithPredicates(Integer age){
+        EntityManager em=getEntityManager();
+        CriteriaBuilder cb=em.getCriteriaBuilder();
+        CriteriaQuery<Customer> cq=cb.createQuery(Customer.class);
+
+        Root<Customer> customerRoot=cq.from(Customer.class);
+        cq.select(customerRoot);
+        Predicate predicate=cb.conjunction();
+        if (age!=null){
+            ParameterExpression<Integer> p= cb.parameter(Integer.class,"myage");
+            predicate=cb.and(predicate,cb.greaterThan(customerRoot.get("age"),p));
+        }
+        cq.where(predicate).orderBy(cb.asc(customerRoot.get("firstName")));
+
+        TypedQuery<Customer> query=em.createQuery(cq).setParameter("myage",age);
+        for(Customer customer:query.getResultList()){
+            System.out.println(customer);
+        }
+
+
+    }
     
     public static void main(String[] args) {
-        
+        CustomerJpaController customerJpaController= new CustomerJpaController();
+        EntityManager em= customerJpaController.getEntityManager();
         try {
-            CustomerJpaController customerJpaController= new CustomerJpaController();
-            Customer customer=new Customer(31,"Fabrice","Touopi");
-            customerJpaController.create(customer);
+            em.getTransaction().begin();
+            Customer customer1=new Customer(31,"Fabrice","Touopi");
+            Customer customer2=new Customer(40,"Eric","Nde");
+            Customer customer3=new Customer(29,"Leopold Singor","Touopi");
+
+            Department department=new Department("Info");
+            customerJpaController.getEntityManager().persist(department);
+
+//            customer1.setDepartment(department);
+//            customer2.setDepartment(department);
+//            customer3.setDepartment(department);
+
+            customerJpaController.create(customer1);
+            customerJpaController.create(customer2);
+            customerJpaController.create(customer3);
+            em.getTransaction().commit();
+
             List<Customer> listCustomers=customerJpaController.findCustomerEntities();
             listCustomers.stream().forEach(System.out::println);
+            customerJpaController.getFullNames();
+            System.out.println("Customer greater than 30");
+           customerJpaController.getListCustomerWithPredicates(30);
         } catch (Exception ex) {
             Logger.getLogger(CustomerJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
