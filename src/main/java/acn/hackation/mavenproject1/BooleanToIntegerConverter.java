@@ -1,5 +1,8 @@
 package acn.hackation.mavenproject1;
 
+import javax.persistence.Converter;
+
+@Converter
 public class BooleanToIntegerConverter implements AttributeConverter<Boolean,Integer> {
     @Override
     public Integer convertToDatabaseColumn(Boolean attribute) {
