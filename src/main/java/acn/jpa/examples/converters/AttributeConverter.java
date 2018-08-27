@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.converters;
 
 public interface AttributeConverter<X,Y> {
     public Y convertToDatabaseColumn(X attribute);

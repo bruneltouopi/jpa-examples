@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1.exceptions;
+package acn.jpa.examples.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

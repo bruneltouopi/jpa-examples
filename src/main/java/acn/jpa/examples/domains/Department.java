@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.domains;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +15,7 @@ public class Department implements Serializable {
     @OneToMany(mappedBy = "department")
     private List<Customer> customers =new ArrayList<>();
 
+    public Department(){}
 
     public Department(String name) {
         this.name = name;

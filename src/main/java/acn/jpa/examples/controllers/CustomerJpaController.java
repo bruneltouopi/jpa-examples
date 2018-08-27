@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.controllers;
 
-import acn.hackation.mavenproject1.exceptions.NonexistentEntityException;
-import acn.hackation.mavenproject1.exceptions.PreexistingEntityException;
+import acn.jpa.examples.domains.Customer;
+import acn.jpa.examples.exceptions.NonexistentEntityException;
+import acn.jpa.examples.exceptions.PreexistingEntityException;
+import acn.jpa.examples.utils.JPAUtility;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -168,35 +168,6 @@ public class CustomerJpaController implements Serializable {
 
     }
     
-    public static void main(String[] args) {
-        CustomerJpaController customerJpaController= new CustomerJpaController();
-        EntityManager em= customerJpaController.getEntityManager();
-        try {
-            em.getTransaction().begin();
-            Customer customer1=new Customer(31,"Fabrice","Touopi");
-            Customer customer2=new Customer(40,"Eric","Nde");
-            Customer customer3=new Customer(29,"Leopold Singor","Touopi");
 
-            Department department=new Department("Info");
-            customerJpaController.getEntityManager().persist(department);
-
-//            customer1.setDepartment(department);
-//            customer2.setDepartment(department);
-//            customer3.setDepartment(department);
-
-            customerJpaController.create(customer1);
-            customerJpaController.create(customer2);
-            customerJpaController.create(customer3);
-            em.getTransaction().commit();
-
-            List<Customer> listCustomers=customerJpaController.findCustomerEntities();
-            listCustomers.stream().forEach(System.out::println);
-            customerJpaController.getFullNames();
-            System.out.println("Customer greater than 30");
-           customerJpaController.getListCustomerWithPredicates(30);
-        } catch (Exception ex) {
-            Logger.getLogger(CustomerJpaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
 }

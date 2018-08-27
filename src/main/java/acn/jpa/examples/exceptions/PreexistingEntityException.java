@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1.exceptions;
+package acn.jpa.examples.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.domains;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,6 +31,7 @@ public class Customer implements Serializable {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "dept_id")
     private Department department;
 
     public Customer() {

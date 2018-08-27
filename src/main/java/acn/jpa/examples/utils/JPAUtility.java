@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.utils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

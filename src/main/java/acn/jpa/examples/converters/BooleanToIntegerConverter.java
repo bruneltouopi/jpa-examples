@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1;
+package acn.jpa.examples.converters;
 
 public class BooleanToIntegerConverter implements AttributeConverter<Boolean,Integer> {
     @Override

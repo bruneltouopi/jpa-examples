@@ -1,4 +1,4 @@
-package acn.hackation.mavenproject1.exceptions;
+package acn.jpa.examples.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {
