@@ -13,7 +13,7 @@ public class Department implements Serializable {
     private Long id;
     private  String name;
     @OneToMany(mappedBy = "department")
-    private List<Customer> customers =new ArrayList<>();
+    private List<Employee> employees =new ArrayList<>();
 
     public Department(){}
 
@@ -37,12 +37,12 @@ public class Department implements Serializable {
         this.name = name;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     @Override
