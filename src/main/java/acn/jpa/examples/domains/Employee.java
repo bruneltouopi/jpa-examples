@@ -2,9 +2,7 @@ package acn.jpa.examples.domains;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by fabrice on 8/21/18.
@@ -23,6 +21,11 @@ public class Employee implements Serializable {
     @Column(name = "id")
     private Long id;
     private String name;
+    @Basic(optional = false)
+    @Column(name = "age")
+    private int age;
+    @Column(name = "first_name")
+    private String firstName;
     @Transient private String phoneNum =new String();
 
     @Basic(fetch = FetchType.LAZY)
@@ -42,6 +45,27 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar dob;
 
+    @Embedded
+    @AttributeOverrides({ //overrites the attributes
+            @AttributeOverride(name = "city",column = @Column(name="ville")),
+            @AttributeOverride(name = "street",column = @Column(name="rue"))
+     }
+    )
+    private Address address;
+
+    @ElementCollection(targetClass = VacationEntry.class)
+    private Collection vacancyBookings;
+
+    @ElementCollection
+    @CollectionTable(name = "EMPL_PHONE")
+    @MapKeyColumn(name = "PHONE_TYPE")
+    @Column(name = "PHONE_NUM")
+    private Map<String,String> phoneNumbers;
+
+    @ManyToOne
+    @JoinColumn(name = "dept_id")
+    private Department department;
+
 
     public Employee() {
     }
@@ -54,6 +78,12 @@ public class Employee implements Serializable {
         this.employeeType = employeeType;
         this.startDate = startDate;
         this.dob = dob;
+    }
+
+    public Employee( int age,String name, String firstName) {
+        this.name = name;
+        this.age = age;
+        this.firstName = firstName;
     }
 
     public String getPhoneNumber() { return phoneNum; }
@@ -138,6 +168,38 @@ public class Employee implements Serializable {
         this.dob = dob;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,5 +211,16 @@ public class Employee implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Employee{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", age=").append(age);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", employeeType=").append(employeeType);
+        sb.append('}');
+        return sb.toString();
     }
 }

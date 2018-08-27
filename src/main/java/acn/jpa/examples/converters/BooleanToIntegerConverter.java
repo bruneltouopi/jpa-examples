@@ -2,7 +2,7 @@ package acn.jpa.examples.converters;
 
 import javax.persistence.Converter;
 
-@Converter
+//@Converter
 public class BooleanToIntegerConverter implements AttributeConverter<Boolean,Integer> {
     @Override
     public Integer convertToDatabaseColumn(Boolean attribute) {

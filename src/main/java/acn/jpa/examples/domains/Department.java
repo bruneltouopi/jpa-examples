@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,12 @@ public class Department implements Serializable {
     private  String name;
     @OneToMany(mappedBy = "department")
     private List<Employee> employees =new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name="EMP_SENIORITY")
+    @MapKeyJoinColumn(name="EMP_ID")
+    @Column(name="SENIORITY")
+    private Map<Employee, Integer> seniorities;
 
     public Department(){}
 

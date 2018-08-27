@@ -5,7 +5,8 @@
  */
 package acn.jpa.examples.controllers;
 
-import acn.jpa.examples.domains.Customer;
+import acn.jpa.examples.domains.Department;
+import acn.jpa.examples.domains.Employee;
 import acn.jpa.examples.exceptions.NonexistentEntityException;
 import acn.jpa.examples.exceptions.PreexistingEntityException;
 import acn.jpa.examples.utils.JPAUtility;
@@ -14,6 +15,8 @@ import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -167,10 +170,7 @@ public class CustomerJpaController implements Serializable {
 
 
     }
-    
-<<<<<<< HEAD:src/main/java/acn/jpa/examples/controllers/CustomerJpaController.java
 
-=======
     public static void main(String[] args) {
         CustomerJpaController customerJpaController= new CustomerJpaController();
         EntityManager em= customerJpaController.getEntityManager();
@@ -201,6 +201,5 @@ public class CustomerJpaController implements Serializable {
             Logger.getLogger(CustomerJpaController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
->>>>>>> master:src/main/java/acn/hackation/mavenproject1/CustomerJpaController.java
-    
+
 }

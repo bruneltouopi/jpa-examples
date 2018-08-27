@@ -1,8 +1,6 @@
 package acn.jpa.examples;
 
 import acn.jpa.examples.controllers.CustomerJpaController;
-import acn.jpa.examples.controllers.EmployeeController;
-import acn.jpa.examples.domains.Customer;
 import acn.jpa.examples.domains.Department;
 import acn.jpa.examples.domains.Employee;
 import acn.jpa.examples.domains.FullTimeEmployee;
@@ -17,7 +15,6 @@ import java.util.logging.Logger;
  */
 public class App {
     static CustomerJpaController customerJpaController= new CustomerJpaController();
-    static EmployeeController employeeController =new EmployeeController();
 
     public static void main(String[] args) {
         App app=new App();
@@ -28,13 +25,13 @@ public class App {
 
             Department department=new Department("Info");
 
-            Customer customer1=new Customer(31,"Fabrice","Touopi");
-            Customer customer2=new Customer(40,"Eric","Nde");
-            Customer customer3=new Customer(29,"Leopold Singor","Touopi");
+            Employee customer1=new Employee(31,"Fabrice","Touopi");
+            Employee customer2=new Employee(40,"Eric","Nde");
+            Employee customer3=new Employee(29,"Leopold Singor","Touopi");
 
             customer1.setDepartment(department);
 
-            department.getCustomers().add(customer1);
+            department.getEmployees().add(customer1);
 
 
             em.persist(customer1);
@@ -53,7 +50,7 @@ public class App {
                     
             em.getTransaction().commit();
 
-            List<Customer> listCustomers=customerJpaController.findCustomerEntities();
+            List<Employee> listCustomers=customerJpaController.findCustomerEntities();
             listCustomers.stream().forEach(System.out::println);
             customerJpaController.getFullNames();
             System.out.println("Customer greater than 30 with Predicates");
