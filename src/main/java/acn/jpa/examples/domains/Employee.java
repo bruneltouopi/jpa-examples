@@ -1,5 +1,7 @@
 package acn.jpa.examples.domains;
 
+import acn.jpa.examples.listeners.NameValidator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -10,9 +12,10 @@ import java.util.*;
 @Entity
 //@TableGenerator(name = "Empl_Gen")
 @Inheritance(strategy = InheritanceType.JOINED)
+@EntityListeners(NameValidator.class)
 @DiscriminatorColumn(name = "EMP_TYPE",discriminatorType = DiscriminatorType.STRING)
 
-public class Employee implements Serializable {
+public class Employee implements Serializable,NamedEntity {
 
     private static final long serialVersionUID = 1L;
     public static final String LOCAL_AREA_CODE = "613";
@@ -44,6 +47,12 @@ public class Employee implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Calendar dob;
+
+    @Transient private long syncTime;
+    @PostPersist
+    @PostUpdate
+    @PostLoad
+    private void resetSyncTime() { syncTime = System.currentTimeMillis(); }
 
     @Embedded
     @AttributeOverrides({ //overrites the attributes
@@ -104,6 +113,7 @@ public class Employee implements Serializable {
     }
 
 
+    @Override
     public String getName() {
         return name;
     }

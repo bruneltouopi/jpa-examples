@@ -10,7 +10,7 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @DiscriminatorValue("F")
-public class FullTimeEmployee extends Employee{
+public class FullTimeEmployee extends CompanyEmployee{
     private double salary;
 
     public double getSalary() {
